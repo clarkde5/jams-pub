@@ -10,7 +10,7 @@ def getInvoiceNumber(page_idx,page):
       if invoice_number != "":
         break
       sorted_words = sorted(line["words"], key = lambda x: x["geometry"][0][0])
-      for word_idx,word in enumerate(sorted_words):
+      for word in sorted_words:
         if re.search("INVOICE",word["value"]) and re.search("NUMBER.",sorted_words[1]["value"]):
           invoice_number = sorted_words[2]["value"]
           break

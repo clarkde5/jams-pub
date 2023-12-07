@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {},
+	"extensions": {
+		"recommendations": [
+			"ms-python.python",
+			"ms-toolsai.jupyter",
+			"eamodio.gitlens",
+			"ms-toolsai.vscode-jupyter-cell-tags",
+			"ms-toolsai.vscode-jupyter-slideshow",
+			"ryanluker.vscode-coverage-gutters",
+			"GitHub.vscode-pull-request-github"
+		]
+	}
+}

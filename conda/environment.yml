@@ -1,0 +1,6 @@
+name: jams-env
+
+dependencies:
+  - pip
+  - python
+  - ipykernel

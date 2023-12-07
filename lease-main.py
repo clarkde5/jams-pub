@@ -7,7 +7,7 @@ def main():
                     convertToJson, \
                     calculateTotals
   
-  f = open('src/jams/output/Aug 23 Lease-docTR.json')
+  f = open('../jams/output/Aug 23 Lease-docTR.json')
   data = json.load(f)
 
   contracts = []

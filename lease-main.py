@@ -1,6 +1,6 @@
 def main():
   import json
-  from lease import getInvoiceNumber, \
+  from pylib.lease import getInvoiceNumber, \
                     getContractsForPage, \
                     getSerialNumbersForPage, \
                     getPaymentDue, \

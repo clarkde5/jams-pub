@@ -138,7 +138,7 @@ def main():
 	import json
 	import os
 	
-	f = open(os.path.abspath("../jams/output/Aug23copies-docTR.json"))
+	f = open(os.path.abspath("../jams/data/konica/2023-08.copies.9009520780.doctr.json"))
 	data = json.load(f)
 
 	contracts = []
@@ -167,7 +167,8 @@ def main():
 		for item in page["items"]:
 			csv_output += str(page["page"])+","+item["contract_number"]+","+item["serial_number"]+",\""+json.dumps(item["price"]).replace("\"","\"\"")+"\","+item["invoice_number"]+",\""+item["invoice_total"]+"\"\r\n"
 
-	csv_file_out = open(os.path.abspath("../jams/output/Aug23copies-docTR.parsed.csv"), "w")
+	os.makedirs("../jams/data/konica/output/", exist_ok=True)
+	csv_file_out = open(os.path.abspath("../jams/data/konica/output/2023-08.copies.9009520780.copies-main.csv"), "w")
 	csv_file_out.write(csv_output)
 	
 

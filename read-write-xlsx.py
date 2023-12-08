@@ -1,3 +1,4 @@
+import os
 from pylib.lease import *
 
 def findSingleRowByItem(relavant_rows, item):
@@ -6,10 +7,11 @@ def findSingleRowByItem(relavant_rows, item):
 def main():
     from openpyxl import load_workbook
     import json
-    response_list = GetResponseFromFile("../jams/output/Aug 23 Lease-docTR.json")
+    
+    response_list = GetResponseFromFile("../jams/data/konica/2023-08.lease.508699675.doctr.json")
     invoice_number = response_list["invoice_number"]
   
-    wb = load_workbook("../jams/data/konica/KONICA Master2023.Blank.xlsx")
+    wb = load_workbook("../jams/data/konica/2023-08.sheet.xlsx")
     ws = wb.active
 
     for page in response_list["pages"]:
@@ -25,8 +27,9 @@ def main():
                 singleRow[10].value = invoice_number
             else:
                 print("Error finding record for item: " + item_json_str)
-       
-    wb.save("../jams/data/konica/KONICA Master2023.Modified.xlsx")
+    
+    os.makedirs("../jams/data/konica/output", exist_ok=True)
+    wb.save("../jams/data/konica/output/2023-08.sheet.xlsx")
 
 if __name__ == "__main__":
     main()

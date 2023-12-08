@@ -2,19 +2,25 @@ runOptional = True
 def getInvoiceNumber(page_idx,page):
 	import re
 
+	StartingPlaceFound = page_idx != 0
 	invoice_number = ""
 
 	for block in page["blocks"]:
 		if invoice_number != "":
 			break
-		for line in block["lines"]:
+		for line_idx,line in enumerate(block["lines"]):
 			if invoice_number != "":
 				break
+			
 			sorted_words = sorted(line["words"], key = lambda x: x["geometry"][0][0])
-			for word_idx,word in enumerate(sorted_words):
-				if re.search("Invoice",word["value"]) and re.search("Nbr:",sorted_words[1]["value"]):
-					invoice_number = sorted_words[2]["value"]
+			if len(sorted_words)==2:
+				if re.search("SUMMARY",sorted_words[0]["value"]) and re.search("DETAIL",sorted_words[1]["value"]):	
+					StartingPlaceFound = True
 					break
+
+			if StartingPlaceFound:
+				invoice_number = sorted_words[0]["value"]
+				break
 
 	return invoice_number
 
@@ -29,9 +35,10 @@ def getInvoiceTotal(page_idx,page):
 		for line in block["lines"]:
 			if invoice_total != "":
 				break
+							
 			sorted_words = sorted(line["words"], key = lambda x: x["geometry"][0][0])
-			if len(sorted_words) == 4:
-				if re.search("This",sorted_words[1]["value"]):
+			for word in sorted_words:
+				if re.search("Sort",word["value"]) and re.search("Invoice",sorted_words[1]["value"]) and re.search("Total:",sorted_words[2]["value"]):
 					invoice_total = sorted_words[3]["value"]
 					break
 
@@ -138,7 +145,9 @@ def main():
 	import json
 	import os
 	
-	f = open(os.path.abspath("../jams/data/konica/2023-08.copies.9009520780.doctr.json"))
+	# f = open(os.path.abspath("../jams/data/konica/2023-08.copies.9009520780.doctr.json"))
+	# f = open(os.path.abspath("../jams/data/konica/2023-09.copies.9009572798.doctr.json"))
+	f = open(os.path.abspath("../jams/data/konica/2023-10.copies.9009621888.doctr.json"))
 	data = json.load(f)
 
 	contracts = []
@@ -168,7 +177,9 @@ def main():
 			csv_output += str(page["page"])+","+item["contract_number"]+","+item["serial_number"]+",\""+json.dumps(item["price"]).replace("\"","\"\"")+"\","+item["invoice_number"]+",\""+item["invoice_total"]+"\"\r\n"
 
 	os.makedirs("../jams/data/konica/output/", exist_ok=True)
-	csv_file_out = open(os.path.abspath("../jams/data/konica/output/2023-08.copies.9009520780.copies-main.csv"), "w")
+	# csv_file_out = open(os.path.abspath("../jams/data/konica/output/2023-08.copies.9009520780.csv"), "w")
+	# csv_file_out = open(os.path.abspath("../jams/data/konica/output/2023-09.copies.9009572798.csv"), "w")
+	csv_file_out = open(os.path.abspath("../jams/data/konica/output/2023-10.copies.9009621888.csv"), "w")
 	csv_file_out.write(csv_output)
 	
 

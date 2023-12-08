@@ -125,3 +125,27 @@ def calculateTotals(response_list):
         response_item["total_price"] = str(round(response_item["total_price"],2))
   
   return response_list
+
+def GetResponseFromFile(fileToParse):
+  import json
+  f = open(fileToParse)
+  data = json.load(f)
+
+  contracts = []
+  serialNumbers = []
+  paymentDue = []
+
+  invoice_number = getInvoiceNumber(0,data["pages"][0])
+
+  for page_idx,page in enumerate(data["pages"]):
+    contracts += getContractsForPage(page_idx,page)
+    serialNumbers += getSerialNumbersForPage(page_idx,page)
+    paymentDue += getPaymentDue(page_idx,page)
+
+  contractSerials = contracts + serialNumbers + paymentDue
+  contractSerials = sorted(contractSerials, key = lambda x: x["pdf_y"])
+
+  response_list = {"pages" : convertToJson(contractSerials), "invoice_number": invoice_number}
+  response_list = calculateTotals(response_list)
+
+  return response_list

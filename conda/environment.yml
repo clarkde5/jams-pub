@@ -4,3 +4,4 @@ dependencies:
   - pip
   - python
   - ipykernel
+  - openpyxl

@@ -5,3 +5,5 @@ dependencies:
   - python
   - ipykernel
   - openpyxl
+  - pip:
+    - python-doctr[torch]

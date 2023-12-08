@@ -126,6 +126,9 @@ def calculateTotals(response_list):
   
   return response_list
 
+def findSingleRowByItem(relavant_rows, item):
+    return next((row for row in relavant_rows if (str(row[3].value) == str(item["contract_number"]) and str(row[1].value) == str(item["serial_number"]))),None)
+
 def GetResponseFromFile(fileToParse):
   import json
   f = open(fileToParse)

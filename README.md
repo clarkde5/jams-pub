@@ -1,5 +1,7 @@
 # jams-pub
 
+## Setup
+
 1. Install Ubuntu for wsl
     > wsl --install -d Ubuntu
 
@@ -29,4 +31,11 @@
 
     > code --install-extension ms-python.python
 
+## Solution
+
+![JAMS Solution](docs/jams-solution.png)
+
+## Reference
+
 Review [setup-notes](docs/setup-notes.md)
+

@@ -133,7 +133,7 @@ colab-connect
 - https://github.com/amitness/colab-connect
 - Mine: https://colab.research.google.com/drive/1waI37Bx8DMg-vPq58agJQEyehGqMWmjQ#scrollTo=BNj85daEi-mR
 - VS Code Extension: "Remote - Tunnels"
-- > Remote Connect to Tunnel > GitHub > 465bbcb10a37 (https://code.visualstudio.com/docs/remote/vscode-server)
+- Remote Connect to Tunnel > GitHub > 465bbcb10a37 (https://code.visualstudio.com/docs/remote/vscode-server)
 - /content/drive/MyDrive/Colab Notebooks
 
 git lfs

@@ -21,7 +21,7 @@
   
     > conda env create --prefix ~/src/jams-pub/env --file ~/src/jams-pub/conda/environment.yml
   
-    > conda activate /home/dclark/src/jams-pub/env
+    > conda activate ~/src/jams-pub/env
 
 1. Install dependencies for docTR
     > sudo apt-get install -y libgl1-mesa-glx libpangocairo-1.0-0

@@ -120,11 +120,9 @@ def convertToJson(sortedData):
 def calculateTotals(response_list):
   for response_page in response_list["pages"]:
     for response_item in response_page["items"]:
+      response_item["total_price"] = float(0)
       for response_price in response_item["price"]:
-        if "total_price" in response_item:
-          response_item["total_price"] = float(response_item["total_price"]) + float(response_price)
-        else:
-          response_item["total_price"] = float(response_price)
+        response_item["total_price"] = float(response_item["total_price"]) + float(response_price)
         response_item["total_price"] = str(round(response_item["total_price"],2))
   
   return response_list

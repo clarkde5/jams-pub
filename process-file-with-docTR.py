@@ -1,7 +1,10 @@
+import pylib.doctr as doctr
+
 def main():
     import os
     import json
     import argparse
+    import time
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=str, default="../jams/data/konica/2023-11.lease.515780542.pdf")
@@ -11,18 +14,10 @@ def main():
     print("input: " + args.input)
     print("output: "+ args.output)
 
-    # Let's pick the desired backend
-    # os.environ['USE_TF'] = '1'
-    os.environ['USE_TORCH'] = '1'
-
-    from doctr.io import DocumentFile
-    from doctr.models import ocr_predictor
-
-    doc = DocumentFile.from_pdf(args.input)
-    predictor = ocr_predictor(pretrained=True)
-    result = predictor(doc)
-
-    json_export = result.export()
+    start_time = time.time()
+    json_export = doctr.doctr_ocr_pdf(args.input)
+    end_time = time.time()
+    print(f"Time Taken: {end_time - start_time}")
 
     os.makedirs("../jams/data/konica/output/", exist_ok=True)
     out_file = open(args.output, "w")

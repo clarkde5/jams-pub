@@ -1,4 +1,5 @@
 import pylib.doctr as doctr
+import pylib.common as common
 
 def main():
     import os
@@ -8,7 +9,7 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=str, default="../jams/data/konica/2023-11.lease.515780542.pdf")
-    parser.add_argument("--output", type=str, default="../jams/data/konica/output/2023-11.lease.515780542.doctr2.json")
+    parser.add_argument("--output", type=str, default="../jams/data/konica/output/2023-11.lease.515780542.doctr.json")
     args = parser.parse_args()
 
     print("input: " + args.input)
@@ -19,9 +20,7 @@ def main():
     end_time = time.time()
     print(f"Time Taken: {end_time - start_time}")
 
-    os.makedirs("../jams/data/konica/output/", exist_ok=True)
-    out_file = open(args.output, "w")
-    out_file.write(json.dumps(json_export, indent=2))
+    common.write_json_output(args.output, json_export)
 
 if __name__ == "__main__":
     main()

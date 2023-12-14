@@ -11,7 +11,7 @@ def getInvoiceNumber(page_idx,page):
         break
       sorted_words = sorted(line["words"], key = lambda x: x["geometry"][0][0])
       for word in sorted_words:
-        if re.search("INVOICE",word["value"]) and re.search("NUMBER.",sorted_words[1]["value"]):
+        if re.search("INVOICE.*",word["value"]) and re.search("NUMBER.*",sorted_words[1]["value"]):
           invoice_number = sorted_words[2]["value"]
           break
 
@@ -44,7 +44,7 @@ def getSerialNumbersForPage(page_idx,page):
   serialNumbers = []
 
   for block in page["blocks"]:
-    for line in block["lines"]:
+    for line_idx, line in enumerate(block["lines"]):
       for word_idx,word in enumerate(sorted(line["words"], key = lambda x: x["geometry"][0][1])):
         if re.search("CURRENT",word["value"]):
           CurrentFound = True
@@ -53,7 +53,10 @@ def getSerialNumbersForPage(page_idx,page):
           continue
 
         if re.search("SERIAL",word["value"]):
-          serial_number_word = line["words"][2]
+          if len(line["words"]) >= 3:
+            serial_number_word = line["words"][2]
+          else:
+            serial_number_word = word
           serialNumbers.append({"serial_number": serial_number_word["value"], "pdf_y": serial_number_word["geometry"][0][1]+page_idx, "page": page_idx+1})
         else:
           continue
@@ -107,10 +110,10 @@ def convertToJson(sortedData):
       current_contract_number_item = current_page_dict["items"][-1]
     elif "serial_number" in contractSerialPair:
       current_contract_number_item["serial_number"] = contractSerialPair["serial_number"]
-    elif "price" in contractSerialPair:
+    elif "price" in contractSerialPair and "price" in current_contract_number_item:
         current_contract_number_item["price"].append(contractSerialPair["price"])
     else:
-      print("Error unknown pair: " + contractSerialPair)
+      print(f"Error unknown pair: {contractSerialPair}")
 
   return response_list
 

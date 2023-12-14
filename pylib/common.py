@@ -17,6 +17,12 @@ def convert_pdf_to_doctr_cache(pdf_invoice_filepath):
     path_name = f"{path.parent}/.cache"
     return f"{path_name}/{file_name}"
 
+def convert_xls_to_xls_output(sheet_path_str):
+    path = pathlib.Path(sheet_path_str)
+    file_name = path.name
+    path_name = f"{path.parent}/output"
+    return f"{path_name}/{file_name}"
+
 def write_json_output(file_path, json_export):
     path = pathlib.Path(file_path)
     path_name = path.parent
@@ -32,7 +38,7 @@ def write_excel_output(file_path, workbook):
 
     os.makedirs(path_name, exist_ok=True)
     
-    workbook.save("../jams/data/konica/output/2023-08.sheet.read-write-xlsx.xlsx")
+    workbook.save(file_path)
 
 def update_lease(wb, file_path):   
     ws = wb.active

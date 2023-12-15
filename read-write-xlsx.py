@@ -1,4 +1,3 @@
-import os
 import pylib.common as common
 
 def main():

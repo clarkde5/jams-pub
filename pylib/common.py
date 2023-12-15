@@ -1,8 +1,19 @@
-from . import lease
-from . import copies
 import pathlib
 import os
 import json
+import logging
+
+def configureLogger(logger):
+    os.makedirs(".logs", exist_ok=True)
+    fhandler = logging.FileHandler(filename='.logs/jams-pub.log', mode='a')
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(funcName)s - %(levelname)s - %(message)s')
+    fhandler.setFormatter(formatter)
+    logger.addHandler(fhandler)
+    logger.setLevel(logging.DEBUG)
+    return logger
+
+def basicConfig():
+    logging.basicConfig(level=logging.CRITICAL)
 
 def data_path():
     return "../jams/data"
@@ -39,45 +50,3 @@ def write_excel_output(file_path, workbook):
     os.makedirs(path_name, exist_ok=True)
     
     workbook.save(file_path)
-
-def update_lease(wb, file_path):   
-    ws = wb.active
-
-    response_list = lease.GetResponseFromFile(file_path)
-    invoice_number = response_list["invoice_number"]
-  
-    for page in response_list["pages"]:
-        for item in page["items"]:
-            item_json_str = json.dumps(item)
-            if not "contract_number" in item or not "serial_number" in item:
-                print("Invalid item: " + item_json_str)
-                continue
-
-            singleRow = lease.findSingleRowByItem(ws.iter_rows(min_row = 6, max_col=17, max_row=127),item)
-            if singleRow != None:
-                singleRow[9].value = item["total_price"]
-                singleRow[10].value = invoice_number
-            else:
-                print("Error finding record for item: " + item_json_str)
-    
-    return wb
-
-def update_copies(wb, file_path):   
-    ws = wb.active
-    response_list = copies.GetResponseFromFile(file_path)
-    
-    for page in response_list:
-        for item in page["items"]:
-            item_json_str = json.dumps(item)
-            if not "contract_number" in item or not "serial_number" in item:
-                print("Invalid item: " + item_json_str)
-                continue
-
-            singleRow = copies.findSingleRowByItem(ws.iter_rows(min_row = 6, max_col=17, max_row=127),item)
-            if singleRow != None:
-                singleRow[15].value = item["price"][0]
-                singleRow[16].value = item["invoice_number"]
-            else:
-                print("Error finding record for item: " + item_json_str)
-
-    return wb

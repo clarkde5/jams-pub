@@ -1,3 +1,8 @@
+import logging
+from . import common
+
+logger = common.configureLogger(logging.getLogger(__name__))
+
 def getInvoiceNumber(page_idx,page):
 	import re
 
@@ -129,7 +134,7 @@ def convertToJson(sortedData,invoice_number,invoice_total):
 		elif "price" in contractSerialPair:
 			current_contract_number_item["price"].append(contractSerialPair["price"])
 		else:
-			print("Error unknown pair: " + contractSerialPair)
+			logger.error("Error unknown pair: " + contractSerialPair)
 
 	return response_list
 
@@ -162,3 +167,25 @@ def GetResponseFromFile(fileToParse):
 	contractSerials = sorted(contractSerials, key = lambda x: x["pdf_y"])
 
 	return convertToJson(contractSerials,invoice_number,invoice_total)
+
+def update_workbook(wb, file_path):
+    import json
+    ws = wb.active
+
+    response_list = GetResponseFromFile(file_path)
+    
+    for page in response_list:
+        for item in page["items"]:
+            item_json_str = json.dumps(item)
+            if not "contract_number" in item or not "serial_number" in item:
+                logger.error("Invalid item: " + item_json_str)
+                continue
+
+            singleRow = findSingleRowByItem(ws.iter_rows(min_row = 6, max_col=17, max_row=127),item)
+            if singleRow != None:
+                singleRow[15].value = item["price"][0]
+                singleRow[16].value = item["invoice_number"]
+            else:
+                logger.error("Unable to find record for item: " + item_json_str)
+
+    return wb

@@ -4,7 +4,11 @@
 			"path": ".."
 		}
 	],
-	"settings": {},
+	"settings": {
+		"python.analysis.exclude": [
+			"env"
+		]
+	},
 	"extensions": {
 		"recommendations": [
 			"ms-python.python",

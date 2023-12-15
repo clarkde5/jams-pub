@@ -9,7 +9,7 @@ def main():
     wb = common.update_lease(wb, "../jams/data/konica/doctr/2023-08.lease.508699675.doctr.json")
     wb = common.update_copies(wb, "../jams/data/konica/doctr/2023-08.copies.9009520780.doctr.json")
 
-    common.write_excel_output(common.convert_xls_to_xls_output(sheet_path_str), wb)
+    common.write_excel_output(common.convertToOutputPath(sheet_path_str), wb)
 
     print("Process completed")
 

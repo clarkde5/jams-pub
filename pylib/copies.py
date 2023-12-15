@@ -189,3 +189,15 @@ def update_workbook(wb, file_path):
                 logger.error("Unable to find record for item: " + item_json_str)
 
     return wb
+
+def convertResponseJsonToCsv(response_list):
+	import json
+	
+	csv_output = "page,contract_number,serial_number,invoice_amount,invoice_number,invoice_total\r\n"
+	
+	for page in response_list:
+		for item in page["items"]:
+			csv_output += str(page["page"])+","+item["contract_number"]+","+item["serial_number"]+",\""+json.dumps(item["price"]).replace("\"","\"\"")+"\","+item["invoice_number"]+",\""+item["invoice_total"]+"\"\r\n"
+	
+	return csv_output
+

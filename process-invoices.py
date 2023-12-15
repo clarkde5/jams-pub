@@ -46,7 +46,7 @@ def main():
         elif "copies" in doctr_cache_file:
             wb = copies.update_workbook(wb, doctr_cache_file)
 
-    common.write_excel_output(common.convert_xls_to_xls_output(sheet_path_str), wb)
+    common.write_excel_output(common.convertToOutputPath(sheet_path_str), wb)
 
 if __name__ == "__main__":
     main()

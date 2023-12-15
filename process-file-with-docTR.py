@@ -9,8 +9,11 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=str, default="../jams/data/konica/2023-11.lease.515780542.pdf")
-    parser.add_argument("--output", type=str, default="../jams/data/konica/output/2023-11.lease.515780542.doctr.json")
+    parser.add_argument("--output", type=str)
     args = parser.parse_args()
+
+    if args.output is None:
+        args.output = common.convert_pdf_to_doctr_cache(args.input)
 
     print("input: " + args.input)
     print("output: "+ args.output)
